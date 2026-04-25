@@ -2,11 +2,11 @@ import { useState } from "react";
 import axios from "axios";
 
 function App() {
-  const [query, setQuery] = useState(""); /*empty*/
+  const [query, setQuery] = useState(""); 
   const [movies, setMovies] = useState([]); 
   const [loading, setLoading] = useState(false); /*loading*/
   const [error, setError] = useState(""); /*error*/
-  const [searched, setSearched] = useState(false);
+  const [searched, setSearched] = useState(false); /*empty*/
 
   const [rateLimited, setRateLimited] = useState(false); /*repeated calls + rate limits*/
   const [cooldown, setCooldown] = useState(0);
@@ -53,7 +53,6 @@ function App() {
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      {/* HEADER */}
       <div
         style={{
           display: "flex",
@@ -76,7 +75,6 @@ function App() {
         <h1 style={{ margin: 0 }}>Claire's Movie Database</h1>
       </div>
 
-      {/* search bar */}
       <div
         style={{
           display: "flex",
@@ -115,7 +113,6 @@ function App() {
         </button>
       </div>
 
-      {/* LOADING */}
       {loading && (
         <div
           style={{
@@ -135,12 +132,10 @@ function App() {
         </div>
       )}
 
-      {/* ERROR */}
       {error && (
         <p style={{ textAlign: "center", color: "red" }}>{error}</p>
       )}
 
-      {/* EMPTY STATE (ONLY WHEN NOT LOADING) */}
       {!loading && searched && movies.length === 0 && !error && (
         <p style={{ textAlign: "center", color: "white" }}>
           No movies found for "{query}"
@@ -153,7 +148,6 @@ function App() {
         </p>
       )}
 
-      {/* MOVIE CARDS */}
       <div
         style={{
           display: "flex",
@@ -180,7 +174,6 @@ function App() {
               textAlign: "center"
             }}
           >
-            {/* POSTER */}
             <img
               src={
                 movie.poster && movie.poster !== "N/A"
