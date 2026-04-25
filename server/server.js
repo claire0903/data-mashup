@@ -20,14 +20,12 @@ app.get("/", (req, res) => {
 app.get("/api/movies", async (req, res) => {
   const query = req.query.q;
 
-  // Require query
   if (!query || !query.trim()) {
     return res.status(400).json({
       error: "Movie title is required."
     });
   }
 
-  // RESET WINDOW
   const now = Date.now();
 
   if (now - windowStart > WINDOW_MS) {
@@ -37,7 +35,6 @@ app.get("/api/movies", async (req, res) => {
 
   requestCount++;
 
-  // LOCAL RATE LIMIT
   if (requestCount > MAX_REQUESTS) {
     return res.status(429).json({
       error: "Too many requests. Please wait a few seconds."
@@ -45,9 +42,7 @@ app.get("/api/movies", async (req, res) => {
   }
 
   try {
-    /*
-      FETCH BOTH APIs IN PARALLEL
-    */
+    
     const [omdbRes, tmdbRes] = await Promise.all([
       axios.get(
         `http://www.omdbapi.com/?apikey=${process.env.OMDB_KEY}&s=${query}`
@@ -60,14 +55,10 @@ app.get("/api/movies", async (req, res) => {
     const omdbMovies = omdbRes.data.Search || [];
     const tmdbMovies = tmdbRes.data.results || [];
 
-    // NO RESULTS
     if (omdbMovies.length === 0) {
       return res.json([]);
     }
 
-    /*
-      MERGE + COMPUTED FIELD
-    */
     const merged = omdbMovies.map((movie) => {
       const match = tmdbMovies.find(
         (m) =>
@@ -82,7 +73,6 @@ app.get("/api/movies", async (req, res) => {
 
       const tmdbRating = match ? match.vote_average : 0;
 
-      // COMPUTED FIELD: Rating Tier
       let ratingTier = "Average";
 
       if (tmdbRating >= 8) {
@@ -103,7 +93,6 @@ app.get("/api/movies", async (req, res) => {
 
     res.json(merged);
   } catch (err) {
-    // EXTERNAL API RATE LIMIT
     if (err.response?.status === 429) {
       return res.status(429).json({
         error: "Movie API rate limit reached. Please try again later."
