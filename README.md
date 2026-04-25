@@ -5,13 +5,11 @@ This application allows users to research different movies based on a search ter
 
 APIs Used: 
 - Names with links
-OMDb - https://www.omdbapi.com
-TMDb - https://www.themoviedb.org/u/maria0903
+1. OMDb - https://www.omdbapi.com
+2. TMDb - https://www.themoviedb.org/u/maria0903
 
 - Short Descriptions
-Both: movie title 
-OMDb: provides poster, year, imdb id
-TMDb: average rating, title
+They are both APIs that are utilized to retrieve movie title information in order to validate and match search results. The first is used to get the movie poster, release year and IMDB ID. The second is used to get cast details and average ratings from IMDB users.
 
 Setup Instructions: 
 - How to install
