@@ -144,7 +144,7 @@ function App() {
 
       {!loading && !searched && !error && (
         <p style={{ textAlign: "center" }}>
-          Input the proper movie title to learn more about it!
+          Try inputting something you're interested in (e.g. Lego)!
         </p>
       )}
 
